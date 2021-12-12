@@ -1,0 +1,30 @@
+.dialog-card{
+    min-height: 100px; 
+    width: 100%;
+    display: inline-flex;
+    margin-top: 1rem;
+}
+
+.dialog-card:hover {
+    border: 1px solid rgb(37, 106, 235);
+    background-color: rgb(174, 203, 247);
+}
+.card-icon{
+    height: 40px;
+    width: 40px;
+    background-color: rgb(37, 106, 235);
+    margin: 1rem;
+    border-radius: 50%;
+    color: white;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+
+.card-title{
+    font-size: x-large;
+}
+.card-content{
+    text-align: left;
+}

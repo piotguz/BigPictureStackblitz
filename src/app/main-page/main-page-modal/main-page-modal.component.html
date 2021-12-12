@@ -1,0 +1,156 @@
+
+<div>
+  <mat-stepper
+  class="example-stepper"
+  [orientation]="(stepperOrientation | async)!">
+  <mat-step >
+    <div class="modal-title">
+      BikPicture - Zacznij z nami!
+    </div>
+      <div>
+          <app-dialog-card [IconName]="'map'" (click)="setHasLocation(false)">
+              <div class="card-title">Szukam lokalizacji</div>
+              <div class="card-subtitle">Szukam miejsca aby rozwinąć biznes, inwestować lub po prostu miło żyć w Łodzi...</div>
+          </app-dialog-card>
+          <app-dialog-card [IconName]="'place'" (click)="setHasLocation(true)">
+              <div class="card-title">Mam już lokalizację</div>
+              <div class="card-subtitle">Mam już lokalizację, powiedz mi co mogę z nią zrobić</div>
+          </app-dialog-card>  
+      </div>
+      <div style="display: flex; justify-content: space-between;">
+          <button mat-button>Pomiń</button>
+          <button mat-button matStepperNext>Dalej</button>
+      </div>
+  </mat-step>
+  <mat-step  >
+    <div *ngIf="hasLocation">
+      <div class="modal-title">
+        Mam już lokalizację
+      </div>
+      <div style="display: inline-flex; width: 100%;">
+        <div style="margin-left: 1rem;">
+          <div class="card-icon"><mat-icon aria-hidden="false" aria-label="place icon">place</mat-icon></div>
+        </div>
+        <div style="width: 100%;">
+          <mat-form-field class="example-form-field" appearance="fill">
+            <mat-label>Podaj nazwę ulicy</mat-label>
+            <input matInput type="text" [(ngModel)]="streetName">
+            <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="streetName=''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+          <mat-form-field class="example-form-field" appearance="fill">
+            <mat-label>Podaj numer ulicy</mat-label>
+            <input matInput type="text" [(ngModel)]="streetNumber">
+            <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="streetNumber=''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+      </div>
+      <div style="display: inline-flex; width: 100%;">
+        <div style="margin-left: 1rem;">
+          <div class="card-icon"><mat-icon aria-hidden="false" aria-label="place icon">add_business</mat-icon></div>
+        </div>
+        <div style="width: 100%;">
+          <mat-form-field class="example-form-field" appearance="fill">
+            <mat-label>Podaj branżę lub formę inwestycji (max 5)</mat-label>
+            <input matInput type="text" [(ngModel)]="value">
+            <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div style="margin-left: 1rem;">
+          <button mat-button style="height: 75%;" (click)="addCategory()"><mat-icon aria-hidden="false" aria-label="add icon">add</mat-icon></button>
+        </div>
+        
+      </div>
+      <div style="min-height: 200px;">
+        <div *ngFor="let category of categories">
+          {{category}}
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!hasLocation">
+      <div class="modal-title">
+        Szukam lokalizacji
+      </div>
+      <app-dialog-card [IconName]="'place'" (click)="setStepTwoResult('bigBusiness')">
+        <div class="card-title">Duży biznes</div>
+      </app-dialog-card>  
+      <app-dialog-card [IconName]="'map'" (click)="setStepTwoResult('smallBusiness')">
+        <div class="card-title">Mały biznes</div>
+      </app-dialog-card>
+      <app-dialog-card [IconName]="'place'" (click)="setStepTwoResult('services')">
+        <div class="card-title">Na usługi i punkty usługowe...</div>
+      </app-dialog-card>  
+      <app-dialog-card [IconName]="'place'" (click)="setStepTwoResult('living')">
+        <div class="card-title">Do życia</div>
+      </app-dialog-card>  
+    </div>
+    <div style="display: flex; justify-content: space-between;">
+      <button mat-button>Pomiń</button>
+      <div>
+        <button mat-button matStepperPrevious>Wstecz</button>
+        <button mat-button matStepperNext>Dalej</button>
+      </div>
+    </div>
+      
+  </mat-step>
+  <mat-step *ngIf="!hasLocation">
+    <div class="modal-title" *ngIf="secondStepResult == 'bigBusiness'">
+      Duży biznes
+    </div>
+    <div class="modal-title" *ngIf="secondStepResult == 'smallBusiness'">
+      Mały biznes
+    </div>
+    <div class="modal-title" *ngIf="secondStepResult == 'services'">
+      Na usługi i punkty usługowe...
+    </div>
+    <div class="modal-title" *ngIf="secondStepResult == 'living'">
+      Do życia
+    </div>
+    <div style="display: inline-flex; width: 100%;justify-content: space-between;">
+      <div style="width: 100%;">
+        <mat-form-field class="example-form-field" appearance="fill">
+          <mat-label>Clearable input</mat-label>
+          <input matInput type="text" [(ngModel)]="value">
+          <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <div style="margin-left: 1rem;">
+        <button mat-button style="height: 75%;" (click)="addCategory()"><mat-icon aria-hidden="false" aria-label="add icon">add</mat-icon></button>
+      </div>
+     
+    </div>
+    <div style="min-height: 200px;">
+      <div *ngFor="let category of categories">
+        {{category}}
+      </div>
+    </div>
+    <div style="display: flex; justify-content: end;">Możesz maksymalnie wskazać 5 kategorii</div>
+    <div style="display: flex; justify-content: space-between;">
+      <button mat-button>Pomiń</button>
+      <div>
+        <button mat-button matStepperPrevious>Wstecz</button>
+        <button mat-button matStepperNext>Dalej</button>
+      </div>
+    </div>
+  </mat-step>
+  <mat-step>
+    <!-- <ng-template matStepLabel>Done</ng-template> -->
+    
+    <div *ngIf="!this.markers">
+      <p>Click Search to initialize gathering Your data</p>
+      <button mat-button (click)="getApiData()">Search</button>
+    </div>
+    <div>
+      <button mat-button (click)="close()">Done</button>
+    </div>
+  </mat-step>
+</mat-stepper>
+</div>
+  
